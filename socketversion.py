@@ -19,7 +19,9 @@ def recvMessage(sock):
             bget = get.decode()
 
             if bget.find('PING') > -1:
-                sendOneMessage(sock, 'PONG')
+                bping = bget.replace('PING :', '')
+                print('ping msg: ' + bping)
+                sendOneMessage(sock, 'PONG :' + bping)
 
             ##Send configuration after receiving this message if not sent yet:
             if sentConfigYet == 0:
@@ -31,6 +33,7 @@ def recvMessage(sock):
 
         except Exception as e:
             print(e)
+
 
 def openConnection(sock, server, port):
     hostuple = ((server, int(port)))
@@ -48,6 +51,7 @@ def sendOneMessage(sock, msg):
     #IRC commands must end with '\r\n'. Formatting accordingly:
     formatMSG = msg + '\r\n'
     msgsend = formatMSG.encode()
+    print(msgsend) ##debug opt
     sock.sendall(msgsend)
 
 def sendCfg(sock):
