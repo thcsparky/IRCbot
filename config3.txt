@@ -1,0 +1,6 @@
+nick: sparkbot
+server: irc.freenode.net
+port: 6667
+NICK sparksbot
+USER sparky 0 * :Aaron
+PASS sparkysbotpassword

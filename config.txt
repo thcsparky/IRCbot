@@ -1,0 +1,5 @@
+nick: sparkbot
+server: localhost
+port: 9999
+NICK sparksbot
+JOIN #tcpdirect
