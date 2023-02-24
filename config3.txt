@@ -3,3 +3,4 @@ server: irc.freenode.net
 port: 6667
 USER sparkysbot "" sparkysbot :sparkysbot
 NICK sparkysbot
+triggermsgjoinchat: PRIVMSG 

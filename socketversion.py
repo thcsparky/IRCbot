@@ -4,10 +4,18 @@ import threading
 import time 
 import requests
 sentConfigYet = 0
+configz = '' 
+sendcfgvariable = ''
+joinyet = ''
+cfgfile
 
 def recvMessage(sock):
     global sentConfigYet
+    global sendcfgvariable
+    global joinyet 
+    global cfgfile 
 
+    global configz
     while True:
         try:
             get = sock.recv(4985)
@@ -25,11 +33,18 @@ def recvMessage(sock):
 
             ##Send configuration after receiving this message if not sent yet:
             if sentConfigYet == 0:
-                sencfgRecvVariable = ':'
+                if sendcfgvariable == '':
+                    sendcfgvariable = ':'
                 
-                if bget.find(sencfgRecvVariable) > -1:
-                    sendCfg(sock)
+                if bget.find(sendcfgvariable) > -1:
+                    sendCfg(sock, cfgfile)
                     sentConfigYet = 1
+            ##send join command (or whatever) at the line appropriately in configz.
+            joinYet = configz[5]
+
+            if bget.find.lower(joinyet.lower) > -1 
+                print 'joinyetfound - debugmsg'
+                sendOneMessage(sock, 'JOIN ' + joinYet)
 
         except Exception as e:
             print(e)
@@ -54,16 +69,16 @@ def sendOneMessage(sock, msg):
     print(msgsend) ##debug opt
     sock.sendall(msgsend)
 
-def sendCfg(sock):
+def sendCfg(sock, cfgfile):
     ##will just reload the config file..
-    fileio = open(os.getcwd() + '/config3.txt')
+    fileio = open(os.getcwd() + '/' + cfgfile)
     filedat = fileio.read()
     fileio.close()
     messages = filedat.splitlines()
     print('sending configuration')
 
     for index, sendline in enumerate(messages):
-        if index > 2:
+        if index > 3:
             print(sendline)
             sendOneMessage(sock, sendline)  #send command with the ending newline.
 
@@ -88,14 +103,20 @@ def promptUser(sock):
 
         
 def main():
+    global configz
     try:
-        getconfiguration1 = open(os.getcwd() + '/config3.txt') ##Changed this to ircd.chat for testing purposes.
+        cfgfile = input("Configuration file in this dir?:\n")
+        
+        getconfiguration1 = open(os.getcwd() + '/' + cfgfile) ##Changed this to ircd.chat for testing purposes.
         getconfiguration = getconfiguration1.read()
         getconfiglist = getconfiguration.splitlines()
+        ##set our global var. 
+        configz = getconfiglist
         ##declare our vars
         confignick = ''
         configserver = ''
         configport = ''
+        #declare a global var i mean use it.
         for x in getconfiglist:
             if x.find('nick: ') > -1:
                 confignick = x.split('nick: ')[1]

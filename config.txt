@@ -1,5 +1,6 @@
 nick: sparkbot
 server: localhost
 port: 9999
+sendcfgvariable: :
 NICK sparksbot
 JOIN #tcpdirect
